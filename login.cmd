@@ -1,7 +1,7 @@
 echo "Logging in"
 
-curl -v -d "@login.json" POST -H "Content-Type:application/json" https://dev.stedi.me/login
+curl --insecure -v -d "@login.json" POST -H "Content-Type:application/json" http://localhost:3000/login
 
-curl https://dev.stedi.me/validate/cbcd1836-138a-4294-92d9-771e224ae943
+@REM curl -v https://dev.stedi.me/validate/95fa12c4-5e2b-412d-8509-3eb3596ae8e
 
 
