@@ -1,11 +1,14 @@
 const express=require("express");
 const bodyParser = require('body-parser');
+const Redis = require('redis');
 const app=express();
 const port = 3000
+const redisClient = Redis.createClient();
 
 app.use(bodyParser.json()); //allow JSON (Javascript Object Notation) requests
 
 app.listen(port, ()=> {
+    redisClient.connect();
     console.log("Listening on port: " + port);
 });
 
