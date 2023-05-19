@@ -1,9 +1,11 @@
+const { createHash } = require ('node:crypto');
+
 const express=require("express");
 const bodyParser = require('body-parser');
 const Redis = require('redis');
 const app=express();
 const port = 3000
-const redisClient = Redis.createClient();
+const redisClient = Redis.createClient({url:'redis://127.0.0.1:6379'});
 
 app.use(bodyParser.json()); //allow JSON (Javascript Object Notation) requests
 
@@ -17,11 +19,15 @@ app.get('/', (req, res) => {
    
 })
 
-app.post('/login',(req,res)=>{
+app.post('/login',async (req,res)=>{
     const loginBody = req.body;
     const userName = loginBody.userName;
-    const password = loginBody.password;
-    if (password==="Password1!"){
+    const password = loginBody.password;//we need to hash the password the user gave us
+    const hashedPassword = password==null ? null : createHash('sha3-256').update(password).digest('hex');
+    console.log("Hashed Password: "+hashedPassword);
+    const redisPassword = password==null ? null : await redisClient.hGet('users',userName);
+    console.log("Redis Password for "+userName+": "+reisPassword);
+    if (password!=null && hashedPassword===redisPassword){
         //this happens if the password is correct
         res.send("Welome "+userName);
     } else {
