@@ -1,5 +1,6 @@
 const { createHash } = require ('node:crypto');
-
+const https = require('https')
+const fs = require('fs')
 const express=require("express");
 const bodyParser = require('body-parser');
 const Redis = require('redis');
@@ -7,12 +8,21 @@ const app=express();
 const port = 3000
 const redisClient = Redis.createClient({url:'redis://127.0.0.1:6379'});
 
+
 app.use(bodyParser.json()); //allow JSON (Javascript Object Notation) requests
 
-app.listen(port, ()=> {
-    redisClient.connect();
-    console.log("Listening on port: " + port);
-});
+https.createServer({
+    key: fs.readFileSync('privkey1.pem'), //This is a private key
+    cert: fs.readFileSync('cert1.pem'),
+    chain: fs.readFileSync('fullchain1.pem')//This is a self-signed certification
+  }, app).listen(3000, () => {
+    console.log('Listening...')
+  })
+
+// app.listen(port, ()=> {
+//     redisClient.connect();
+//     console.log("Listening on port: " + port);
+// });
 
 app.get('/', (req, res) => {
     res.send("Welcome to your node server");
@@ -26,7 +36,7 @@ app.post('/login',async (req,res)=>{
     const hashedPassword = password==null ? null : createHash('sha3-256').update(password).digest('hex');
     console.log("Hashed Password: "+hashedPassword);
     const redisPassword = password==null ? null : await redisClient.hGet('users',userName);
-    console.log("Redis Password for "+userName+": "+reisPassword);
+    console.log("Redis Password for "+userName+": "+redisPassword);
     if (password!=null && hashedPassword===redisPassword){
         //this happens if the password is correct
         res.send("Welome "+userName);
