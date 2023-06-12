@@ -12,9 +12,9 @@ const redisClient = Redis.createClient({url:'redis://127.0.0.1:6379'});
 app.use(bodyParser.json()); //allow JSON (Javascript Object Notation) requests
 
 https.createServer({
-    key: fs.readFileSync('privkey1.pem'), //This is a private key
-    cert: fs.readFileSync('cert1.pem'),
-    chain: fs.readFileSync('fullchain1.pem')//This is a self-signed certification
+    key: fs.readFileSync('/etc/letsencrypt/archive/joshhamblen.cit270.com/privkey1.pem'), //This is a private key
+    cert: fs.readFileSync('/etc/letsencrypt/archive/joshhamblen.cit270.com/cert1.pem'),
+    chain: fs.readFileSync('/etc/letsencrypt/archive/joshhamblen.cit270.com/fullchain1.pem')//This is a self-signed certification
   }, app).listen(3000, () => {
     redisClient.connect();
     console.log('Listening...')
