@@ -14,8 +14,8 @@ app.use(bodyParser.json()); //allow JSON (Javascript Object Notation) requests
 https.createServer({
     key: fs.readFileSync('/etc/letsencrypt/archive/joshhamblen.cit270.com/privkey1.pem'), //This is a private key
     cert: fs.readFileSync('/etc/letsencrypt/archive/joshhamblen.cit270.com/cert1.pem'),
-    chain: fs.readFileSync('/etc/letsencrypt/archive/joshhamblen.cit270.com/fullchain1.pem')//This is a self-signed certification
-  }, app).listen(443, () => {
+    ca: fs.readFileSync('/etc/letsencrypt/archive/joshhamblen.cit270.com/chain1.pem')//This is a self-signed certification
+  }, app).listen(port, () => {
     redisClient.connect();
     console.log('Listening...')
   })
