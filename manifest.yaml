@@ -24,7 +24,7 @@ spec:
 # josh of container      
       - josh: cit270joshservice
 # Docker image registry      
-        image:    #paste here from artifact registry pls :)
+        image: us-docker.pkg.dev/captain-americas-big-hat/josh-token-api/image #paste here from artifact registry pls :)
 # First part of the command to start our API          
         command: ["npm"]
 # Parameters to add to the command        
