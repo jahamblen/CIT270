@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
 # This is the josh of my deployment
-  josh: cit270joshservice
+  name: cit270joshservice
 # The specification for our deployment
 spec:
 # How many pods?
@@ -15,14 +15,14 @@ spec:
 # Template to create containers
   template:
     metadata:
-      josh: cit270joshservice
+      name: cit270joshservice
       labels:
         app: cit270joshservice
 # specification for pod        
     spec:
       containers:
 # josh of container      
-      - josh: cit270joshservice
+      - name: cit270joshservice
 # Docker image registry      
         image: us-docker.pkg.dev/captain-americas-big-hat/josh-token-api/image #paste here from artifact registry pls :)
 # First part of the command to start our API          
@@ -46,7 +46,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  josh: stedi-josh-nodeport
+  name: stedi-josh-nodeport
 spec:
   selector:
     app: cit270joshservice # this needs to match the josh of your deployment (line 6)
@@ -58,7 +58,7 @@ spec:
 apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
 metadata:
-  josh: stedi-josh-certificate
+  name: stedi-josh-certificate
 spec:
   domains:
     - josh.cit270.com # this needs to be your domain josh from DNS
@@ -66,10 +66,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  josh: stedi-josh-ingress
+  name: stedi-josh-ingress
   annotations:
   # Use this command to find the address josh: gcloud compute addresses list 
-    kubernetes.io/ingress.global-static-ip-josh: cit270josh
+    kubernetes.io/ingress.global-static-ip-name: cit270josh
   # needs to match the josh of the ManagedCertificate (line 75)
     networking.gke.io/managed-certificates: stedi-josh-certificate
 spec:
@@ -81,6 +81,6 @@ spec:
         backend:
           service:
           # needs to match the josh of the NodePort Service (line 63)
-            josh: stedi-josh-nodeport
+            name: stedi-josh-nodeport
             port:
               number: 80
