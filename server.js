@@ -6,7 +6,12 @@ const bodyParser = require('body-parser');
 const Redis = require('redis');
 const app=express();
 const port = 3000;
-const redisClient = Redis.createClient({url:'redis//:redis-stedi-josh:6379'});
+const redisClient = Redis.createClient({
+    socket: {
+        host: 'redis-stedi-joshhamblen',
+        port: '6379'
+    }
+});
 
 
 app.use(bodyParser.json()); //allow JSON (Javascript Object Notation) requests
