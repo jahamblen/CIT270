@@ -8,7 +8,7 @@ const app=express();
 const port = 3000;
 const redisClient = Redis.createClient({
     socket: {
-        host: 'redis-stedi-joshhamblen',
+        host: 'redis-stedi-josh',
         port: '6379'
     }
 });
